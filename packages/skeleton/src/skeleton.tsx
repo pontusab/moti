@@ -3,7 +3,7 @@ import { View as MotiView } from '@motify/components'
 import { View, StyleSheet } from 'react-native'
 
 import { LinearGradient } from 'expo-linear-gradient'
-import { AnimatePresence, MotiTransitionProp } from '@motify/core'
+import { AnimatePresence, TransitionConfig } from '@motify/core'
 
 type Props = {
   /**
@@ -67,9 +67,9 @@ type Props = {
   disableExitAnimation?: boolean
 
   /**
-   * Custom transition overide the default config
+   * Custom transition overide the default
    */
-  customTransition?: MotiTransitionProp
+  transition?: TransitionConfig
 }
 
 const DEFAULT_SIZE = 32
@@ -114,7 +114,7 @@ export default function Skelton(props: Props) {
       colors[0] ??
       baseColors[colorMode]?.secondary,
     disableExitAnimation,
-    customTransition,
+    transition,
   } = props
 
   const [measuredWidth, setMeasuredWidth] = useState(0)
@@ -183,7 +183,7 @@ export default function Skelton(props: Props) {
               key={`${JSON.stringify(colors)}-${measuredWidth}`}
               colors={colors}
               measuredWidth={measuredWidth}
-              customTransition={customTransition}
+              transition={transition}
             />
           </MotiView>
         )}
@@ -196,11 +196,11 @@ const AnimatedGradient = React.memo(
   function AnimatedGradient({
     measuredWidth,
     colors,
-    customTransition = {}
+    transition = {}
   }: {
     measuredWidth: number
     colors: string[],
-    customTransition?: MotiTransitionProp
+    transition?: TransitionConfig
   }) {
     const backgroundSize = 6
     if (!measuredWidth) return null
@@ -221,7 +221,7 @@ const AnimatedGradient = React.memo(
           type: 'timing',
           duration: 3000,
           loop: true,
-          ...customTransition
+          ...transition
         }}
         delay={200}
       >
